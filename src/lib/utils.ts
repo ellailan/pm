@@ -57,10 +57,10 @@ export function getDeadlineColor(deadline: string): string {
   const diff = deadlineDate.getTime() - now.getTime();
   const days = Math.floor(diff / 86400000);
 
-  if (days < 0) return "text-red-500";
+  if (days < 0) return "text-pink-600";
   if (days < 3) return "text-orange-500";
-  if (days < 7) return "text-yellow-500";
-  return "text-green-500";
+  if (days < 7) return "text-gold-600";
+  return "text-mint-700";
 }
 
 export function isOverdue(deadline: string): boolean {

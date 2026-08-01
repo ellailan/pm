@@ -5,7 +5,7 @@ import { TeamProvider } from "@/lib/team-context";
 
 export const metadata: Metadata = {
   title: "Portfolio Manager",
-  description: "Brutalist ticket management for student organizations",
+  description: "Modern ticket management for student organizations",
 };
 
 export default function ProtectedLayout({

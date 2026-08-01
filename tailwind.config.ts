@@ -9,135 +9,141 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Neo-brutalism primary palette
+        // ─── Core Neutrals ───
+        black: "#000000",
+
+        // Deep Navy — primary dark text / accents
         navy: {
-          50: "#f0f3ff",
-          100: "#e1e8ff",
-          200: "#c6d2ff",
-          300: "#a4b4ff",
-          400: "#7d8dff",
-          500: "#5a67ff",
-          600: "#4850e6",
-          700: "#3a3fc1",
-          800: "#323696",
-          900: "#133272", // Primary navy
-          950: "#12122e",
+          50: "#ECF2FB",
+          100: "#D0E3F7",
+          200: "#9DBFFA",
+          300: "#6A9AE7",
+          400: "#3776D5",
+          500: "#1C5BBF",
+          600: "#134A99",
+          700: "#0F3A7A",
+          800: "#0D2947", /* Deep Navy */
+          900: "#061226",
+          950: "#03070E",
         },
-        // Gold for backgrounds
+
+        // Pale Yellow — page background
         gold: {
-          50: "#FEF9E3",
-          100: "#FEF5D0",
-          200: "#FDF4C8", // Primary gold/cream
-          300: "#FFE88C",
-          400: "#FFD93D",
-          500: "#F9C74F",
-          600: "#E9B535",
-          700: "#C99A2A",
-          800: "#A1761F",
-          900: "#735114",
+          50: "#FFFCF0",
+          100: "#FEFAE0",
+          200: "#FEF6B6", /* Pale Yellow */
+          300: "#FDEF89",
+          400: "#FCDE5A",
+          500: "#FBCC2B",
+          600: "#D3A31E",
+          700: "#9A7A15",
+          800: "#624E0C",
+          900: "#2F2403",
         },
-        // Purple accent
-        purple: {
+
+        // Purple — primary accent
+        plum: {
           50: "#FAF5FF",
           100: "#F3E8FF",
-          200: "#E9D9FF",
+          200: "#E9D5FF",
           300: "#D5BCFF",
-          400: "#C4B5FD",
-          500: "#953A90",
-          600: "#7A2E76",
-          700: "#5F215C",
-          800: "#441442",
-          900: "#2F0D28",
+          400: "#C4A2FF",
+          500: "#A053AA", /* Purple */
+          600: "#824391",
+          700: "#653578",
+          800: "#482660",
+          900: "#2B1848",
         },
-        // Supporting colors
-        "light-blue": {
-          50: "#EFF8FF",
-          100: "#DAF0FF",
-          200: "#BFE5FF",
-          300: "#A1C6F3",
-          400: "#74B3F5",
-          500: "#4AABF7",
-          600: "#2A9BF9",
-          700: "#1A8DF3",
-          800: "#0F6BBC",
-          900: "#0A4F88",
+
+        // Mint Green — secondary accent / status
+        mint: {
+          50: "#EEFFF8", /* Light Mint */
+          100: "#D9F5EE",
+          200: "#C4F0E2",
+          300: "#AEE6D6",
+          400: "#AED8C6", /* Mint Green */
+          500: "#82C4AD",
+          600: "#66B096",
+          700: "#4A9C7F",
+          800: "#358767",
+          900: "#20704F",
         },
-        lavender: {
-          50: "#FCF8FF",
-          100: "#F5F0FF",
-          200: "#EEDFFF",
-          300: "#E2D3FF",
-          400: "#CFADD7",
-          500: "#BC99D6",
-          600: "#AA85C5",
-          700: "#9671B4",
-          800: "#825DA3",
-          900: "#6E4992",
+
+        // Pink — accent
+        pink: {
+          50: "#FFF0F8",
+          100: "#FFE4EF",
+          200: "#FFD1E0",
+          300: "#E7AEC2", /* Pink */
+          400: "#D48FB4",
+          500: "#C2709F",
+          600: "#AF5F89",
+          700: "#9C4F73",
+          800: "#8A3F5D",
+          900: "#772F47",
         },
-        // Keep existing surface colors for softer backgrounds
+
+        // Light Lavender — decorative
+        "light-lavender": "#D5AFDA",
+
+        // Surface — neutral grays for borders & text
         surface: {
-          50: "#fafaf7",
-          100: "#f5f4ef",
-          200: "#eae8e0",
-          300: "#d8d5c8",
-          400: "#bfbba8",
-          500: "#a8a38c",
-          600: "#8b8670",
-          700: "#6f6a58",
-          800: "#555140",
-          900: "#3d3a2e",
-          950: "#221f18",
+          50: "#FAFAFB",
+          100: "#F5F5F7",
+          200: "#E5E5E7",
+          300: "#D1D1D6",
+          400: "#A1A1AA",
+          500: "#71717A",
+          600: "#52525B",
+          700: "#3F3F46",
+          800: "#27272A",
+          900: "#18181B",
+          950: "#0F0F10",
         },
-        plum: {
-          50: "#f5f3ff",
-          100: "#ede9fe",
-          200: "#ddd6fe",
-          300: "#c4b5fd",
-          400: "#a78bfa",
-          500: "#8b5cf6",
-          600: "#7c3aed",
-          700: "#6d28d9",
-          800: "#5b21b6",
-          900: "#4c1d95",
-        },
+
+        // Ticket status colors (soft pastels from new palette)
         status: {
-          open: "#a7f3d0",
-          in_progress: "#bfdbfe",
-          review: "#fde68a",
-          completed: "#ddd6fe",
-          archived: "#d1d5db",
+          open: "#AED8C6", /* Mint Green */
+          in_progress: "#BFDBFE",
+          review: "#FEF6B6", /* Pale Yellow */
+          completed: "#C4A2FF", /* Purple tint */
+          archived: "#D1D5DB",
         },
       },
+
       fontFamily: {
         sans: [
-          "Space Grotesk",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
           "sans-serif",
         ],
       },
+
       borderRadius: {
         hand: "0.625rem",
         "hand-lg": "1rem",
         "hand-xl": "1.25rem",
       },
+
       boxShadow: {
-        // Softened neo-brutal shadows with slight blur
-        "brutal-sm": "2px 2px 4px 0px rgba(0, 0, 0, 0.25)",
-        "brutal-md": "4px 4px 8px 0px rgba(0, 0, 0, 0.25)",
-        "brutal-lg": "6px 6px 12px 0px rgba(0, 0, 0, 0.25)",
-        "brutal-xl": "8px 8px 16px 0px rgba(0, 0, 0, 0.25)",
-        "brutal-yellow": "4px 4px 8px 0px rgba(255, 217, 61, 0.4)",
-        "brutal-purple": "4px 4px 8px 0px rgba(149, 58, 144, 0.4)",
-        "brutal-blue": "4px 4px 8px 0px rgba(161, 198, 243, 0.4)",
+        /* Soft modern shadows — no hard offsets */
+        "brutal-sm": "0 1px 3px 0px rgba(0, 0, 0, 0.06)",
+        "brutal-md": "0 2px 6px 0px rgba(0, 0, 0, 0.06)",
+        "brutal-lg": "0 4px 12px 0px rgba(0, 0, 0, 0.06)",
+        "brutal-xl": "0 8px 20px 0px rgba(0, 0, 0, 0.06)",
+        "brutal-yellow": "0 2px 6px 0px rgba(254, 246, 182, 0.30)",
+        "brutal-purple": "0 2px 6px 0px rgba(160, 83, 170, 0.30)",
+        "brutal-blue": "0 2px 6px 0px rgba(13, 41, 71, 0.20)",
       },
+
       animation: {
         "fade-in": "fadeIn 0.3s ease-out",
         "slide-up": "slideUp 0.3s ease-out",
         "pulse-soft": "pulseSoft 2s ease-in-out infinite",
         shimmer: "shimmer 1.5s ease-in-out infinite",
       },
+
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },
@@ -160,4 +166,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;

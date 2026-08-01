@@ -10,7 +10,7 @@ export function PortfolioBadge({ portfolio, className }: PortfolioBadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2 py-1 font-black text-[10px] uppercase border-2 border-black shadow-brutal-sm ${className || ""}`}
+      className={`inline-flex items-center gap-1.5 px-2 py-1 font-bold text-[10px] uppercase rounded shadow ${className || ""}`}
       style={{ backgroundColor: color, color: 'white' }}
     >
       {portfolio}

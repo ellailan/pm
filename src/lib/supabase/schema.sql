@@ -19,8 +19,9 @@ CREATE TABLE IF NOT EXISTS tickets (
   summary TEXT NOT NULL,
   creative_vision TEXT NOT NULL,
   reference_urls TEXT[] DEFAULT '{}',
-  additional_requests TEXT,
-  status TEXT DEFAULT 'Open' CHECK (status IN ('Open', 'In Progress', 'In Review', 'Completed', 'Archived')),
+   additional_requests TEXT,
+   content_link TEXT,
+   status TEXT DEFAULT 'Open' CHECK (status IN ('Open', 'In Progress', 'In Review', 'Completed', 'Archived')),
   priority TEXT DEFAULT 'Medium' CHECK (priority IN ('Low', 'Medium', 'High', 'Urgent')),
   created_at TIMESTAMP DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
@@ -28,6 +29,9 @@ CREATE TABLE IF NOT EXISTS tickets (
   assigned_to TEXT,
   is_on_board BOOLEAN DEFAULT FALSE
 );
+
+-- Add content_link column to existing tickets table (no-op if already present)
+ALTER TABLE tickets ADD COLUMN IF NOT EXISTS content_link TEXT;
 
 -- Team members table
 CREATE TABLE IF NOT EXISTS team_members (

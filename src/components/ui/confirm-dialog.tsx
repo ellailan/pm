@@ -28,14 +28,14 @@ export function ConfirmDialog({
 
   const buttonStyles = {
     danger: "bg-red-500 hover:bg-red-600 text-white",
-    warning: "bg-amber-500 hover:bg-amber-600 text-navy-900",
-    info: "bg-plum-500 hover:bg-plum-600 text-white",
+    warning: "bg-amber-500 hover:bg-amber-600 text-navy-800",
+    info: "bg-mint-500 hover:bg-mint-600 text-white",
   };
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-hand-xl shadow-lg max-w-sm w-full animate-slide-up">
-        <div className="flex items-start justify-between mb-4 p-4 border-b border-surface-200">
+      <div className="bg-white rounded-hand-xl shadow-md max-w-sm w-full animate-slide-up">
+        <div className="flex items-start justify-between mb-4 p-4 border-b border-surface-200/50">
           <h3 className="text-lg font-bold text-navy-800">{title}</h3>
           <button
             onClick={onClose}

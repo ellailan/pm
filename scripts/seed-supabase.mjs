@@ -37,6 +37,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
     creative_vision: "Bright, fun, scrapbook aesthetic with candid photos, location stickers, and playful typography. Focus on celebrating community and showcasing diverse experiences.",
     reference_urls: [],
     additional_requests: "Collect photos from members by August 28. Include a final slide welcoming everyone back to campus.",
+    content_link: "https://www.canva.com/design/summer-recap-mock",
     status: "Open",
     priority: "High",
     created_at: "2026-07-04T10:00:00Z",

@@ -28,14 +28,14 @@ export default function RequestsPage() {
 
   const filtered = useMemo(() => {
     let items = [...tickets];
-    
+
     // Filter by active/completed tab
     if (activeTab === "completed") {
       items = items.filter((t) => t.status === "Completed");
     } else {
       items = items.filter((t) => t.status !== "Completed");
     }
-    
+
     if (search) {
       const q = search.toLowerCase();
       items = items.filter((t) =>
@@ -57,21 +57,21 @@ export default function RequestsPage() {
           <p className="text-xs text-surface-500">{filtered.length} result{filtered.length !== 1 ? "s" : ""}</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center bg-white/60 rounded-lg p-0.5">
-            <button 
-              onClick={() => setView("list")} 
+          <div className="flex items-center bg-white/80 rounded-hand p-0.5">
+            <button
+              onClick={() => setView("list")}
               className={cn(
                 "p-1.5 rounded font-medium text-xs transition-all",
-                view === "list" ? "bg-plum-100 text-plum-700" : "text-surface-500 hover:bg-plum-50"
+                view === "list" ? "bg-mint-500 text-white" : "text-surface-500 hover:bg-mint-50/50"
               )}
             >
               <List className="w-4 h-4" />
             </button>
-            <button 
-              onClick={() => setView("board")} 
+            <button
+              onClick={() => setView("board")}
               className={cn(
                 "p-1.5 rounded font-medium text-xs transition-all",
-                view === "board" ? "bg-plum-100 text-plum-700" : "text-surface-500 hover:bg-plum-50"
+                view === "board" ? "bg-mint-500 text-white" : "text-surface-500 hover:bg-mint-50/50"
               )}
             >
               <Columns className="w-4 h-4" />
@@ -85,14 +85,14 @@ export default function RequestsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1 mb-4 bg-white/60 rounded-hand p-1 w-fit">
+      <div className="flex items-center gap-1 mb-4 bg-white/80 rounded-hand p-1 w-fit">
         <button
           onClick={() => setActiveTab("active")}
           className={cn(
-            "px-3 py-1 font-medium text-xs rounded transition-all",
+            "px-3 py-1 font-bold text-xs rounded transition-all",
             activeTab === "active"
-              ? "bg-plum-500 text-white"
-              : "text-navy-700 bg-transparent hover:bg-plum-50"
+              ? "bg-mint-500 text-white"
+              : "text-navy-700 bg-transparent hover:bg-mint-50/50"
           )}
         >
           Active
@@ -100,10 +100,10 @@ export default function RequestsPage() {
         <button
           onClick={() => setActiveTab("completed")}
           className={cn(
-            "px-3 py-1 font-medium text-xs rounded transition-all",
+            "px-3 py-1 font-bold text-xs rounded transition-all",
             activeTab === "completed"
-              ? "bg-plum-500 text-white"
-              : "text-navy-700 bg-transparent hover:bg-plum-50"
+              ? "bg-mint-500 text-white"
+              : "text-navy-700 bg-transparent hover:bg-mint-50/50"
           )}
         >
           Completed
@@ -153,19 +153,19 @@ export default function RequestsPage() {
         </select>
       </div>
 
-      <div className="border border-surface-200 rounded-hand-xl bg-white/80 shadow-sm">
+      <div className="border border-surface-200/50 rounded-hand-xl bg-white/80 shadow-sm">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-surface-200 bg-plum-50/50">
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-navy-700 uppercase">Title</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-navy-700 uppercase">Portfolio</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-navy-700 uppercase">Team Member</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-navy-700 uppercase">Priority</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-navy-700 uppercase">Status</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-navy-700 uppercase">Due</th>
+            <tr className="border-b border-surface-200/30 bg-mint-50/50">
+              <th className="px-4 py-2.5 text-left text-xs font-bold text-navy-700">Title</th>
+              <th className="px-4 py-2.5 text-left text-xs font-bold text-navy-700">Portfolio</th>
+              <th className="px-4 py-2.5 text-left text-xs font-bold text-navy-700">Team Member</th>
+              <th className="px-4 py-2.5 text-left text-xs font-bold text-navy-700">Priority</th>
+              <th className="px-4 py-2.5 text-left text-xs font-bold text-navy-700">Status</th>
+              <th className="px-4 py-2.5 text-left text-xs font-bold text-navy-700">Due</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-surface-200">
+          <tbody className="divide-y divide-surface-200/30">
             {loading ? (
               <>
                 <SkeletonTableRow />
@@ -176,10 +176,10 @@ export default function RequestsPage() {
               </>
             ) : (
               filtered.map((ticket) => (
-                <tr 
-                  key={ticket.id} 
+                <tr
+                  key={ticket.id}
                   className={cn(
-                    "hover:bg-plum-50/30 transition-all", 
+                    "hover:bg-mint-50/30 transition-all",
                     ticket.status === "Archived" && "opacity-60"
                   )}
                 >
@@ -187,7 +187,7 @@ export default function RequestsPage() {
                     <Link href={`/requests/${ticket.id}`} className="block group">
                       <div className="flex items-center gap-2">
                         <PortfolioDot portfolio={ticket.portfolio} />
-                        <span className="text-sm font-medium text-navy-800 group-hover:text-plum-600 transition-colors">
+                        <span className="text-sm font-bold text-navy-800 group-hover:text-mint-600 transition-colors">
                           {ticket.title}
                         </span>
                       </div>
@@ -202,10 +202,10 @@ export default function RequestsPage() {
                   <td className="px-4 py-2.5">
                     <span className={cn(
                       "text-xs font-medium px-2 py-0.5 rounded-full",
-                      ticket.priority === "Urgent" && "bg-red-50 text-red-600",
-                      ticket.priority === "High" && "bg-orange-50 text-orange-600",
-                      ticket.priority === "Medium" && "bg-amber-50 text-amber-600",
-                      ticket.priority === "Low" && "bg-emerald-50 text-emerald-600"
+                      ticket.priority === "Urgent" && "bg-navy-800 text-white",
+                      ticket.priority === "High" && "bg-pink-100 text-pink-700",
+                      ticket.priority === "Medium" && "bg-purple-100 text-purple-700",
+                      ticket.priority === "Low" && "bg-mint-100 text-mint-700",
                     )}>
                       {ticket.priority}
                     </span>
@@ -225,8 +225,8 @@ export default function RequestsPage() {
                   <td className="px-4 py-2.5">
                     <div className="flex items-center gap-2">
                       <span className={cn(
-                        "text-sm", 
-                        new Date(ticket.deadline) < new Date() ? "text-red-600" : "text-surface-500"
+                        "text-sm",
+                        new Date(ticket.deadline) < new Date() ? "text-pink-600" : "text-surface-500"
                       )}>
                         {new Date(ticket.deadline).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                       </span>
@@ -236,7 +236,7 @@ export default function RequestsPage() {
                             setTicketToRestore(ticket.id);
                             setRestoreDialogOpen(true);
                           }}
-                          className="p-0.5 hover:text-plum-600 transition-colors"
+                          className="p-0.5 hover:text-mint-600 transition-colors"
                           title="Restore ticket"
                         >
                           <RotateCcw className="w-3.5 h-3.5" />

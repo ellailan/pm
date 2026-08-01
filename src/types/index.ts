@@ -21,14 +21,14 @@ export const PORTFOLIOS: Portfolio[] = [
 ];
 
 export const PORTFOLIO_COLORS: Record<Portfolio, string> = {
-  Events: "#f97316",
-  Presidential: "#8b5cf6",
-  Marketing: "#ec4899",
-  Internal: "#14b8a6",
-  External: "#3b82f6",
-  Tech: "#22c55e",
-  youCode: "#eab308",
-  Data: "#6366f1",
+  Events: "#F97316",
+  Presidential: "#A053AA",  /* Purple */
+  Marketing: "#E7AEC2",   /* Pink */
+  Internal: "#AED8C6",    /* Mint Green */
+  External: "#60A5FA",
+  Tech: "#22C55E",
+  youCode: "#FACC15",
+  Data: "#6366F1",
 };
 
 // ─── Graphic Types ───
@@ -99,6 +99,7 @@ export interface Ticket {
   createdBy: string;
   assignedTo?: string;
   isOnBoard?: boolean;
+  contentLink?: string;
 }
 
 // ─── Form Types ───
@@ -115,6 +116,7 @@ export interface NewTicketForm {
   creativeVision: string;
   references: string[];
   additionalRequests: string;
+  contentLink?: string;
 }
 
 // ─── Team Member ───

@@ -71,6 +71,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
           createdBy: t.created_by,
           assignedTo: t.assigned_to || undefined,
           isOnBoard: t.is_on_board,
+          contentLink: t.content_link || "",
         }));
         setTickets(formattedTickets);
       }
@@ -100,6 +101,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
           creative_vision: ticket.creativeVision,
           reference_urls: ticket.references,
           additional_requests: ticket.additionalRequests || null,
+          content_link: ticket.contentLink || null,
           created_by: ticket.pointOfContact,
           status: 'Open',
           priority: 'Medium',
@@ -135,6 +137,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
           createdBy: data.created_by,
           assignedTo: data.assigned_to || undefined,
           isOnBoard: data.is_on_board,
+          contentLink: data.content_link || "",
         };
         setTickets((prev) => [newTicket, ...prev]);
         return newTicket;
@@ -209,6 +212,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
       if (updates.priority !== undefined) dbUpdates.priority = updates.priority;
       if (updates.assignedTo !== undefined) dbUpdates.assigned_to = updates.assignedTo;
       if (updates.isOnBoard !== undefined) dbUpdates.is_on_board = updates.isOnBoard;
+      if (updates.contentLink !== undefined) dbUpdates.content_link = updates.contentLink;
 
       const { error } = await supabase
         .from('tickets')
