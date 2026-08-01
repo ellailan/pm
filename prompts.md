@@ -11,15 +11,15 @@ Our current Google Form request system should be used as the basis for the new r
 
 **Result:**
 - Built a full Next.js 14 frontend with TypeScript, Tailwind CSS, and Lucide icons
-- 4 pages: Dashboard, All Requests (list + board views), New Request (6-step wizard), Request Detail
+- Four pages: Dashboard, All Requests (list + board views), New Request (6-step wizard), Request Detail
 - Custom design system with accent (indigo), surface (neutral), and status color tokens
-- 8 mock tickets across all portfolios with realistic data
+- Eight mock tickets across all portfolios with realistic data
 - All Google Form fields preserved across the wizard steps
 
 ## Prompt 2 — Debloat & Kanban Redesign
 
 **User Request:**
-Let's do two things. The first is that I want you to write my prompts into a `.md` file called `prompts.md` and add it to the repo. Next I want you to debloat the UI. You added way too many details. I want the sidebar to have the tickets and for it to be more Kanban style, where I can drag and drop the tasks into columns per team member.
+Let's do two things. The first is that I want you to write my prompts into a `.md` file called `prompts.md` and add it to the repo. Next, I want you to debloat the UI. You added way too many details. I want the sidebar to have the tickets and for it to be more Kanban style, where I can drag and drop the tasks into columns per team member.
 
 **Result:**
 - Simplified sidebar (removed portfolio list, moved New Request to topbar)
@@ -55,7 +55,7 @@ The "All Tickets" button is currently giving me this error: Unhandled Runtime Er
 I am now getting Unhandled Runtime Error ReferenceError: `PlusCircle` is not defined.
 
 **Result:**
-- Added `PlusCircle` to the lucide-react imports in requests/page.tsx
+- Added `PlusCircle` to the lucide-react imports in `requests/page.tsx`
 - Fixed build error
 
 ## Prompt 6 — Team Member Management
@@ -73,7 +73,7 @@ We need a way to manage the members on the team. I want to be able to add or rem
 ## Prompt 7 — Remove Redundant UI Elements
 
 **User Request:**
-Get rid of the following redundant items: where it says "Ella Lan" at the bottom, the topmost search bar and the topmost "New" button. It's repeating features that are not needed.
+Get rid of the following redundant items: where it says "Ella Lan" at the bottom, the topmost search bar, and the topmost "New" button. It's repeating features that are not needed.
 
 **Result:**
 - Removed user avatar/name block from sidebar footer
@@ -88,8 +88,8 @@ When I remove a team member, it's now deleting their tickets. Make sure they get
 
 **Result:**
 - Added `unassignMember()` function to ticket context
-- When member is deleted, their tickets are unassigned (pointOfContact cleared, isOnBoard set to false)
-- Tickets reappear in sidebar drag pool
+- When a member is deleted, their tickets are unassigned (point of contact cleared, `isOnBoard` set to `false`)
+- Tickets reappear in the sidebar drag pool
 - Changed sidebar header from "Tickets (count)" to "Unassigned Tickets"
 
 ## Prompt 9 — Remove Top Navigation & Logo
@@ -99,8 +99,8 @@ Get rid of the "All Tickets" toggle in the top banner and the place where it say
 
 **Result:**
 - Removed "All Tickets" link from topbar
-- Topbar reduced to empty header element
-- Removed PM logo block (Layers icon + "PM" text) from sidebar
+- Topbar reduced to an empty header element
+- Removed the PM logo block (Layers icon + "PM" text) from the sidebar
 - Removed unused Layers icon import
 
 ## Prompt 10 — Redesign Ticket Detail Page
@@ -109,13 +109,13 @@ Get rid of the "All Tickets" toggle in the top banner and the place where it say
 I want to work on the request tickets. We need to make the details that are important easy to understand upon first glance. Get rid of any reference to a request number, like "REQ-001", across the whole application. When the ticket is expanded so we can see the details, make sure the type of content that needs to be made, like if it's a post or a TikTok, is highlighted with more emphasis at the top of the ticket. Get rid of the comments. Allow the details of the tickets to be editable from inside of the ticket itself.
 
 **Result:**
-- Removed all REQ-001 ID displays from board, sidebar, and requests list
-- Redesigned ticket detail page with graphic types as prominent toggle buttons at top
-- Removed entire comments section
+- Removed all REQ-001 ID displays from the board, sidebar, and requests list
+- Redesigned ticket detail page with graphic types as prominent toggle buttons at the top
+- Removed the entire comments section
 - Made all fields inline-editable (title, event details, summary, creative vision, deadline, status, priority)
 - Added EditableField and EditableSection components
 - Removed ID column from requests table
-- Updated search to exclude ID field
+- Updated search to exclude the ID field
 - IDs kept internally for routing but never displayed
 
 ## Prompt 11 — Add Edit Button with Full Workflow
@@ -124,10 +124,10 @@ I want to work on the request tickets. We need to make the details that are impo
 I want the edit button to come back. To edit the ticket, let me go through the entire workflow of the survey sheet again.
 
 **Result:**
-- Restored Edit button to ticket detail page header
+- Restored the Edit button to the ticket detail page header
 - Edit button links to `/requests/new?edit=${ticket.id}`
 - New request page detects edit mode via URL parameter
-- Pre-populates entire 6-step form with existing ticket data
+- Pre-populates the entire 6-step form with existing ticket data
 - Submit button changes to "Update Request" when editing
 - Calls `updateTicket()` to save changes
 - Form title changes to "Edit Request" in edit mode
@@ -135,18 +135,18 @@ I want the edit button to come back. To edit the ticket, let me go through the e
 ## Prompt 12 — Streamline Request Form
 
 **User Request:**
-I want to work on the ticket form itself. Get rid of the place to add a collaborator on the first page. On the second page, if "Other" is selected, give a textbox to enter what the other type of media is on the following page. Where it says "event details" on the third page, make it just "Details" - sometimes tickets are for merch or stickers. Automatically make the date of the ticket the date it was submitted, so only allow the user to enter the due date (and call it due date rather than date of event). Where you ask for reference URLs, just make that a textbox rather than the weird popups, make sure it's clickable through the ticket page itself later. Make a custom popup for when the request is submitted rather than the default browser one, and bring us back to all tickets when it's submitted.
+I want to work on the ticket form itself. Get rid of the place to add a collaborator on the first page. On the second page, if "Other" is selected, give a textbox to enter what the other type of media is on the following page. Where it says "event details" on the third page, make it just "Details" — sometimes tickets are for merch or stickers. Automatically make the date of the ticket the date it was submitted, so only allow the user to enter the due date (and call it due date rather than date of event). Where you ask for reference URLs, just make that a textbox rather than the weird popups, make sure it's clickable through the ticket page itself later. Make a custom popup for when the request is submitted rather than the default browser one, and bring us back to all tickets when it's submitted.
 
 **Result:**
 - Removed collaboration checkbox and collaborator management from step 1
-- Added conditional "otherGraphicType" text input when "Other" is selected in step 2
+- Added conditional `otherGraphicType` text input when "Other" is selected in step 2
 - Renamed "Event Details" to "Details" in step 3 with generic fields
-- Removed event date field, auto-set deadline to today's date on form load
+- Removed event date field, auto-set the deadline to today's date on form load
 - Renamed "Posting Deadline" to "Due Date" with helper text
-- Replaced prompt() popups with inline text input for reference URLs
-- Added custom success modal with checkmark animation on submission
-- Auto-redirect to /requests after 2 seconds
-- Updated NewTicketForm type to remove collaboration fields and add otherGraphicType
+- Replaced `prompt()` popups with an inline text input for reference URLs
+- Added a custom success modal with a checkmark animation on submission
+- Auto-redirected to `/requests` after 2 seconds
+- Updated the `NewTicketForm` type to remove collaboration fields and add `otherGraphicType`
 
 ## Prompt 13 — Redesign Ticket Detail View
 
@@ -154,12 +154,12 @@ I want to work on the ticket form itself. Get rid of the place to add a collabor
 I want to work on the expanded view of the ticket itself. Please emphasize the graphic types that need to be made in a central card near the top, and then have the event details underneath it. Remove anything that isn't explicitly stated in the request form from this extended view.
 
 **Result:**
-- Created prominent "What Needs to be Made" card with gradient background at top
-- Graphic types displayed as large white badges with accent-500 background
-- Moved "Details" card below with Name/Title, Time, Location, Due Date
-- Removed sidebar with Created By, Collaborators, and Activity feed
-- Removed all fields not in request form (no REQ-001 IDs, no comments)
-- Simplified to single-column layout focusing on deliverable information
+- Created a prominent "What Needs to be Made" card with a gradient background at the top
+- Graphic types displayed as large white badges with an accent-500 background
+- Moved the "Details" card below with Name/Title, Time, Location, and Due Date
+- Removed the sidebar with Created By, Collaborators, and Activity feed
+- Removed all fields not in the request form (no REQ-001 IDs, no comments)
+- Simplified to a single-column layout focusing on deliverable information
 
 ## Prompt 14 — Simplify References Section
 
@@ -167,21 +167,21 @@ I want to work on the expanded view of the ticket itself. Please emphasize the g
 In the References & Inspiration section of the request form, please remove the big drag-and-drop section and only have the textbox where you submit the link.
 
 **Result:**
-- Removed drag-and-drop upload area with Upload icon
-- Kept only text input field with "Add" button for URLs
-- Updated subtitle to "Share URLs that inspire the design"
+- Removed the drag-and-drop upload area with the Upload icon
+- Kept only the text input field with an "Add" button for URLs
+- Updated the subtitle to "Share URLs that inspire the design"
 - Cleaner, more focused interface for adding reference links
 
 ## Prompt 15 — Remove Empty Header
 
 **User Request:**
-Get rid of the header rectangle. There is an extra header section in the big panel on the right, please get rid of that rectangle. It's where there used to be a logo. It's `<header class="h-12 glass flex items-center justify-between px-4 shrink-0"></header>`.
+Get rid of the header rectangle. There is an extra header section in the big panel on the right; please get rid of that rectangle. It's where there used to be a logo. It's `<header class="h-12 glass flex items-center justify-between px-4 shrink-0"></header>`.
 
 **Result:**
-- Removed empty Topbar component from layout
-- Deleted src/components/layout/topbar.tsx file
-- Removed Topbar import from app/layout.tsx
-- Removed Topbar element from layout structure
+- Removed the empty Topbar component from the layout
+- Deleted `src/components/layout/topbar.tsx`
+- Removed the Topbar import from `app/layout.tsx`
+- Removed the Topbar element from the layout structure
 
 ## Prompt 16 — Update Default Team Members
 
@@ -189,7 +189,7 @@ Get rid of the header rectangle. There is an extra header section in the big pan
 Make the default team members Ella, Yolanda, Claire, Amber, and Rosie.
 
 **Result:**
-- Updated initialMembers array in src/lib/team-context.tsx
+- Updated the `initialMembers` array in `src/lib/team-context.tsx`
 - Changed from 8 members (Sarah Chen, Marcus Johnson, Priya Patel, David Kim, Maya Rodriguez, James Liu, Olivia Martinez, Emily Watson) to 5 members (Ella, Yolanda, Claire, Amber, Rosie)
 - These now appear as default columns on the Kanban board
 
@@ -199,12 +199,12 @@ Make the default team members Ella, Yolanda, Claire, Amber, and Rosie.
 Does this follow CRUD? Make sure all data does. I want a soft delete too. I want to be able to archive/mark off as done and move to the archive, as well as delete. I want to be careful with the delete, so there's an "Are you sure?" prompt for it as well.
 
 **Result:**
-- Added `archiveTicket(id)` function to ticket context (soft delete - changes status to "Archived")
-- Added `deleteTicket(id)` function to ticket context (hard delete - permanent removal)
-- Created ConfirmDialog component for confirmation prompts
-- Added Archive and Delete buttons to ticket detail page header
-- Delete button triggers confirmation dialog with "Are you sure?" warning
-- Archive button immediately changes status to "Archived"
+- Added `archiveTicket(id)` function to the ticket context (soft delete — changes status to "Archived")
+- Added `deleteTicket(id)` function to the ticket context (hard delete — permanent removal)
+- Created the ConfirmDialog component for confirmation prompts
+- Added Archive and Delete buttons to the ticket detail page header
+- Delete button triggers a confirmation dialog with an "Are you sure?" warning
+- Archive button immediately changes the status to "Archived"
 - Completed full CRUD for both tickets and team members
 
 ## Prompt 18 — Add Archive Tab
@@ -213,15 +213,15 @@ Does this follow CRUD? Make sure all data does. I want a soft delete too. I want
 I want there to be an archive tab below "All Tickets", where you can visit the archived posts.
 
 **Result:**
-- Added tab navigation to requests page with "Active" and "Archived" tabs
-- Active tab shows all non-archived tickets (default view)
-- Archived tab shows only tickets with status "Archived"
-- Implemented archive filtering logic in useMemo
+- Added tab navigation to the requests page with "Active" and "Archived" tabs
+- The Active tab shows all non-archived tickets (default view)
+- The Archived tab shows only tickets with status "Archived"
+- Implemented archive filtering logic in `useMemo`
 - Added `restoreTicket(id)` function to restore archived tickets back to "Open" status
-- Archived tickets styled distinctly with opacity-60 and gray background
-- Gray status badge for archived tickets
-- Restore button (RotateCcw icon) appears next to deadline for archived tickets
-- Confirmation dialog for restore action
+- Archived tickets styled distinctly with `opacity-60` and a gray background
+- Added a gray status badge for archived tickets
+- The Restore button (RotateCcw icon) appears next to the deadline for archived tickets
+- Added a confirmation dialog for the restore action
 - Complete archive workflow: Archive → View in tab → Restore or Delete
 
 ## Prompt 19 — Connect to Supabase Database
@@ -230,17 +230,17 @@ I want there to be an archive tab below "All Tickets", where you can visit the a
 I want to connect this to a Supabase database. How do I do it?
 
 **Result:**
-- Installed Supabase dependencies (@supabase/supabase-js, @supabase/ssr)
-- Created environment variable configuration (.env.local.example)
-- Set up Supabase client in src/lib/supabase/client.ts
-- Created complete database schema in src/lib/supabase/schema.sql
+- Installed Supabase dependencies (`@supabase/supabase-js`, `@supabase/ssr`)
+- Created environment variable configuration (`.env.local.example`)
+- Set up the Supabase client in `src/lib/supabase/client.ts`
+- Created the complete database schema in `src/lib/supabase/schema.sql`
 - Updated TeamContext to use Supabase for all team member operations
 - Updated TicketContext to use Supabase for all ticket operations
 - Added loading and error states to both contexts
-- Created SUPABASE_SETUP.md guide with step-by-step instructions
-- All CRUD operations now connected to Supabase database
-- Proper field name mapping between frontend and database
-- Note: User needs to run SQL schema in Supabase dashboard and configure .env.local with their credentials
+- Created `SUPABASE_SETUP.md` guide with step-by-step instructions
+- All CRUD operations now connected to the Supabase database
+- Implemented proper field name mapping between the frontend and the database
+- Note: the user needs to run the SQL schema in the Supabase dashboard and configure `.env.local` with their credentials
 
 ## Prompt 20 — Fix Runtime Error & Install Supabase
 
@@ -248,10 +248,10 @@ I want to connect this to a Supabase database. How do I do it?
 When I go to use it, I'm getting Unhandled Runtime Error TypeError: Cannot read properties of null (reading 'from').
 
 **Result:**
-- Installed @supabase/supabase-js (was missing, causing null client)
-- Fixed supabase client.ts to use proper ESM import instead of fragile require()
-- Fixed type error: added "Instagram Carousel" to GraphicType union
-- Fixed build errors: added Suspense boundary around useSearchParams(), fixed duplicate imports
+- Installed `@supabase/supabase-js` (was missing, causing a null client)
+- Fixed `supabase/client.ts` to use a proper ESM import instead of a fragile `require()`
+- Fixed a type error: added "Instagram Carousel" to the `GraphicType` union
+- Fixed build errors: added a Suspense boundary around `useSearchParams()` and fixed duplicate imports
 - Build passes successfully
 
 ## Prompt 21 — Fix Empty Sidebar (Mock Data Fallback)
@@ -260,9 +260,9 @@ When I go to use it, I'm getting Unhandled Runtime Error TypeError: Cannot read 
 All the tickets are now not showing correctly in the unassigned panel on the side.
 
 **Result:**
-- Identified root cause: Supabase database had no tickets, so fetchTickets() returned empty array
-- Added mock data fallback in ticket-context.tsx when Supabase returns no data
-- All 6 sample tickets display correctly in the Unassigned Tickets panel
+- Identified the root cause: the Supabase database had no tickets, so `fetchTickets()` returned an empty array
+- Added a mock data fallback in `ticket-context.tsx` when Supabase returns no data
+- All six sample tickets display correctly in the Unassigned Tickets panel
 
 ## Prompt 22 — Seed Supabase & Remove Mock Data
 
@@ -270,11 +270,11 @@ All the tickets are now not showing correctly in the unassigned panel on the sid
 Please add the mock data to Supabase, and get rid of the mock data files.
 
 **Result:**
-- Created scripts/seed-supabase.mjs to insert mock data into Supabase
-- Ran seed script — successfully seeded 6 tickets
-- Removed src/lib/mock-data.ts file
-- Updated all pages to read from Supabase via useTickets() context instead of mockTickets
-- Removed mock data fallback from ticket-context.tsx
+- Created `scripts/seed-supabase.mjs` to insert mock data into Supabase
+- Ran the seed script — successfully seeded six tickets
+- Removed `src/lib/mock-data.ts`
+- Updated all pages to read from Supabase via `useTickets()` context instead of `mockTickets`
+- Removed the mock data fallback from `ticket-context.tsx`
 - Build passes successfully
 
 ## Prompt 23 — Delete Fall Recruitment Ticket
@@ -283,9 +283,9 @@ Please add the mock data to Supabase, and get rid of the mock data files.
 Delete the Fall Recruitment ticket.
 
 **Result:**
-- Queried Supabase to find the "Fall Recruitment Instagram Campaign" ticket (from original schema.sql sample data)
-- Deleted it from the database via Supabase delete query
-- Remaining: 6 seeded tickets
+- Queried Supabase to find the "Fall Recruitment Instagram Campaign" ticket (from the original schema.sql sample data)
+- Deleted it from the database via a Supabase delete query
+- Remaining: six seeded tickets
 
 ## Prompt 24 — Drag Ticket Back to Unassigned
 
@@ -293,11 +293,11 @@ Delete the Fall Recruitment ticket.
 I want to be able to move a ticket back to being unassigned by dragging it to the left-hand side.
 
 **Result:**
-- Added `unassignFromBoard(id)` function to ticket context
-  - Clears point_of_contact and sets is_on_board to false in Supabase
-- Made sidebar unassigned tickets area a drop target
-  - Shows dashed ring highlight when dragging over it
-  - Drops call unassignFromBoard(id) to move ticket back to unassigned
+- Added `unassignFromBoard(id)` function to the ticket context
+  - Clears `point_of_contact` and sets `is_on_board` to `false` in Supabase
+- Made the sidebar unassigned tickets area a drop target
+  - Shows a dashed ring highlight when dragging over it
+  - On drop, calls `unassignFromBoard(id)` to move the ticket back to unassigned
 - Build passes successfully
 
 ## Prompt 25 — Secure Credentials & Update Prompts
@@ -306,11 +306,11 @@ I want to be able to move a ticket back to being unassigned by dragging it to th
 Update the prompts.md and the .gitignore to make sure the prompts are all tracked and no information is leaked.
 
 **Result:**
-- Updated scripts/seed-supabase.mjs to read credentials from .env.local instead of hardcoding them
-  - Added dotenv dependency for loading .env.local
-  - Script now exits with error if credentials are missing
-- Verified .gitignore already ignores .env.local and all .env.*.local files
-- Added all missing prompt entries to prompts.md
+- Updated `scripts/seed-supabase.mjs` to read credentials from `.env.local` instead of hardcoding them
+  - Added the `dotenv` dependency for loading `.env.local`
+  - The script now exits with an error if credentials are missing
+- Verified `.gitignore` already ignores `.env.local` and all `.env.*.local` files
+- Added all missing prompt entries to `prompts.md`
 - No sensitive information is tracked in the repository
 
 ## Prompt 26 — Add Basic Auth Password Protection
@@ -319,16 +319,16 @@ Update the prompts.md and the .gitignore to make sure the prompts are all tracke
 I want to deploy this so other people can access it, and I gently want to be able to authenticate the users seeing it by password-protecting this somehow. What do I do?
 
 **Result:**
-- Created src/middleware.ts with HTTP Basic Auth protection
-- Added AUTH_USER and AUTH_PASS environment variables to .env.local.example and .env.local
-- Default credentials: admin / password (change in .env.local before deployment)
-- All routes protected except static assets and API routes
-- Browser will show native login prompt on first visit
+- Created `src/middleware.ts` with HTTP Basic Auth protection
+- Added `AUTH_USER` and `AUTH_PASS` environment variables to `.env.local.example` and `.env.local`
+- Default credentials: `admin` / `password` (change in `.env.local` before deployment)
+- All routes are protected except static assets, API routes, and the login page itself
+- The browser shows a native login prompt on first visit
 
 **To deploy:**
 1. Push to GitHub
 2. Connect to Vercel (vercel.com)
-3. Add environment variables in Vercel dashboard
+3. Add environment variables in the Vercel dashboard
 4. Deploy
 
 ## Prompt 27 — Custom Login UI
@@ -337,13 +337,13 @@ I want to deploy this so other people can access it, and I gently want to be abl
 Create a custom UI for entering the password and username.
 
 **Result:**
-- Created src/app/login/page.tsx with custom login form
-- Created src/app/api/auth/login/route.ts for credential validation
-- Created src/app/api/auth/logout/route.ts for sign out
-- Updated middleware to check auth cookie and redirect to /login
-- Added Sign Out button to sidebar
-- Login form uses navy + plum styling to match app theme
-- Credentials stored in AUTH_USER and AUTH_PASS env vars
+- Created `src/app/login/page.tsx` with a custom login form
+- Created `src/app/api/auth/login/route.ts` for credential validation
+- Created `src/app/api/auth/logout/route.ts` for sign out
+- Updated the middleware to check the auth cookie and redirect to `/login`
+- Added a Sign Out button to the sidebar
+- Login form uses navy + plum styling to match the app theme
+- Credentials are stored in `AUTH_USER` and `AUTH_PASS` environment variables
 
 ## Prompt 28 — Hide UI on Login Page
 
@@ -351,9 +351,9 @@ Create a custom UI for entering the password and username.
 When showing the password login UI, hide all the other elements.
 
 **Result:**
-- Created src/app/login/layout.tsx with standalone layout (no sidebar)
-- Updated middleware to exclude /login from protection
-- Login page now shows only the login form without sidebar or other UI elements
+- Created `src/app/login/layout.tsx` with a standalone layout (no sidebar)
+- Updated the middleware to exclude `/login` from protection
+- The login page now shows only the login form without the sidebar or other UI elements
 
 ## Prompt 29 — Hide UI on Login Page (Alt)
 
@@ -361,9 +361,9 @@ When showing the password login UI, hide all the other elements.
 When showing the password login UI, hide all the other elements.
 
 **Result:**
-- Created src/app/login/layout.tsx with standalone layout (no sidebar)
-- Updated middleware to exclude /login from protection
-- Login page now shows only the login form without sidebar or other UI elements
+- Created `src/app/login/layout.tsx` with a standalone layout (no sidebar)
+- Updated the middleware to exclude `/login` from protection
+- The login page now shows only the login form without the sidebar or other UI elements
 
 ## Prompt 30 — Fix Login Page Hydration
 
@@ -371,7 +371,7 @@ When showing the password login UI, hide all the other elements.
 Error: Hydration failed because the initial UI does not match what was rendered on the server.
 
 **Result:**
-- Simplified src/app/login/layout.tsx to just a wrapper div (no html/head/body)
+- Simplified `src/app/login/layout.tsx` to just a wrapper `<div>` (no `html`/`head`/`body`)
 - This allows the login page to inherit from the root layout without conflicts
 - Build passes successfully
 
@@ -381,10 +381,10 @@ Error: Hydration failed because the initial UI does not match what was rendered 
 When showing the password login UI, hide all the other elements.
 
 **Result:**
-- Created src/app/(protected)/ route group for all protected pages
-- Moved page.tsx, requests/, and api/auth into (protected) group
-- Created src/app/(protected)/layout.tsx with sidebar
-- Login page now renders without sidebar (inherits from root layout)
+- Created the `src/app/(protected)/` route group for all protected pages
+- Moved `page.tsx`, `requests/`, and `api/auth` into the `(protected)` group
+- Created `src/app/(protected)/layout.tsx` with the sidebar
+- The login page now renders without the sidebar (inherits from the root layout)
 - Build passes successfully
 
 ## Prompt 32 — Session-Based Auth & Auto-Login
@@ -393,9 +393,9 @@ When showing the password login UI, hide all the other elements.
 When I show up to the board, I want it to ask me to log in every time.
 
 **Result:**
-- Changed auth cookie from persistent 7-day session (maxAge) to session cookie
-- Removed `maxAge` property from cookie options in login route
-- Cookie now expires when browser is closed
+- Changed the auth cookie from a persistent 7-day session (`maxAge`) to a session cookie
+- Removed the `maxAge` property from cookie options in the login route
+- The cookie now expires when the browser is closed
 - Users must log in on each new browser session
 
 ## Prompt 33 — Neo-Brutalism Design Overhaul
@@ -406,10 +406,10 @@ When I show up to the board, I want it to ask me to log in every time.
 Apply the neo-brutalism design system to transform the entire app.
 
 **Result:**
-- Changed font to Space Grotesk with heavy weights (900, 700)
-- Added hard black borders (border-4) to all elements
-- Implemented hard offset shadows (4px 4px 0px 0px #000)
-- Changed background to cream (#FFFDF5) with grid pattern
+- Changed the font to Space Grotesk with heavy weights (900, 700)
+- Added hard black borders (`border-4`) to all elements
+- Implemented hard offset shadows (`4px 4px 0px 0px #000`)
+- Changed the background to cream (`#FFFDF5`) with a grid pattern
 - Added mechanical button interactions (push-down on click)
 - Used high-saturation colors (Navy, Gold, Purple, Light Blue, Lavender)
 - Removed all subtle grays and smooth transitions
@@ -420,11 +420,11 @@ Apply the neo-brutalism design system to transform the entire app.
 Get rid of duplicate tickets. Make sure unassigned tickets render correctly.
 
 **Result:**
-- Added deduplication logic in ticket-context.tsx to filter out duplicate tickets by ID when fetching
-- Updated seed script to delete ALL existing tickets before re-seeding (fixed UUID syntax for delete query)
-- Ran seed script successfully - database cleaned from 18 tickets to 6 clean tickets
-- Fixed sidebar text contrast (changed to white text on dark navy background)
-- Added bg-navy-800/50 background to unassigned tickets scroll area
+- Added deduplication logic in `ticket-context.tsx` to filter out duplicate tickets by ID when fetching
+- Updated the seed script to delete ALL existing tickets before re-seeding (fixed UUID syntax for the delete query)
+- Ran the seed script successfully — database cleaned from 18 tickets to six clean tickets
+- Fixed sidebar text contrast (changed to white text on a dark navy background)
+- Added `bg-navy-800/50` background to the unassigned tickets scroll area
 
 ## Prompt 35 — Softened Neo-Brutalism Design
 
@@ -433,12 +433,12 @@ Get rid of the harsh shadows and borders. Find a way to soften the design slight
 
 **Result:**
 - Changed from harsh `border-4` to softer `border-2` or `border` for most elements
-- Added subtle blur to shadows (2-8px blur instead of 0px)
+- Added subtle blur to shadows (2–8px blur instead of `0px`)
 - Restored rounded corners (`rounded-hand`, `rounded-hand-xl`)
 - Used softer color application (plum-500 instead of harsh contrasts)
-- Kept Space Grotesk font, cream background (#FDF4C8), and bold typography
+- Kept Space Grotesk font, cream background (`#FDF4C8`), and bold typography
 - Removed aggressive rotation effects and harsh border thickness
-- Maintains neo-brutal character with a more approachable feel
+- Maintains a neo-brutal character with a more approachable feel
 
 ## Prompt 36 — Updated Prompts Documentation
 
@@ -446,10 +446,10 @@ Get rid of the harsh shadows and borders. Find a way to soften the design slight
 Edit the prompts.md file to make sure it's up to date. Then edit all prompts for grammar, spelling, and capitalization. Cite https://www.designprompts.dev/ for the design overhaul.
 
 **Result:**
-- Updated prompts.md with complete history of all prompts
+- Updated `prompts.md` with the complete history of all prompts
 - Fixed grammar, spelling, and capitalization throughout all entries
-- Added Design Prompts citation at the top of the file
-- Added missing prompts (34-35) for duplicate tickets fix and softened design
+- Added the Design Prompts citation to the top of the file
+- Added missing prompts (34–35) for the duplicate tickets fix and softened design
 
 ## Prompt 37 — Fix Login 405 Error & Persistent Login
 
@@ -457,11 +457,11 @@ Edit the prompts.md file to make sure it's up to date. Then edit all prompts for
 When I log in from the Vercel deployment, I get a 405 error. Make sure I always log in when I come to see the site first.
 
 **Result:**
-- Added `path: "/"` to auth cookie so it's sent to all routes (was scoped to /api/auth/ by default)
+- Added `path: "/"` to the auth cookie so it is sent to all routes (was scoped to `/api/auth/` by default)
 - Added `maxAge: 60 * 60 * 24 * 7` (7 days) for persistent login between visits
-- Added GET handler to login API to prevent 405 errors from direct URL hits
+- Added a GET handler to the login API to prevent 405 errors from direct URL hits
 - Fixed logout cookie deletion to use `path: "/"` with `maxAge: 0`
-- Wrapped `useSearchParams()` in Suspense boundary on login page (pre-existing build error)
+- Wrapped `useSearchParams()` in a Suspense boundary on the login page (pre-existing build error)
 
 ## Prompt 38 — Fix Create Ticket Not Working
 
@@ -469,11 +469,11 @@ When I log in from the Vercel deployment, I get a 405 error. Make sure I always 
 The create mode isn't working.
 
 **Result:**
-- Added `createTicket()` function to ticket context with Supabase insert
-- Exposed createTicket through TicketContext provider
-- Wired up form submit handler to call createTicket with all form data
-- Added `is_on_board: true` to insert so tickets appear on board immediately
-- Added user-visible error banner to show Supabase errors when creation fails
+- Added `createTicket()` function to the ticket context with a Supabase insert
+- Exposed `createTicket` through the TicketContext provider
+- Wired up the form submit handler to call `createTicket` with all form data
+- Added `is_on_board: true` to the insert so tickets appear on the board immediately
+- Added a user-visible error banner to show Supabase errors when creation fails
 
 ## Prompt 39 — Tickets Not Showing in Database
 
@@ -481,9 +481,9 @@ The create mode isn't working.
 Tickets are not showing when they are created, and they aren't making it to the database.
 
 **Result:**
-- Fixed silently swallowed errors — catch block now sets submitError state
-- Added error banner component to display Supabase error messages to the user
-- Set Supabase environment variables in Vercel dashboard for production
+- Fixed silently swallowed errors — the catch block now sets the `submitError` state
+- Added an error banner component to display Supabase error messages to the user
+- Set Supabase environment variables in the Vercel dashboard for production
 
 ## Prompt 40 — Replace Archive with Complete Status
 
@@ -491,12 +491,12 @@ Tickets are not showing when they are created, and they aren't making it to the 
 Instead of archive, let's make it complete/completed tickets, so it's more clear.
 
 **Result:**
-- Renamed `archiveTicket` to `completeTicket` in ticket context
-- completeTicket sets status to "Completed" and is_on_board to false
-- Added status dropdown selector on ticket detail page (Open / In Progress / In Review / Completed)
-- Changed detail page buttons: "Archive" → "Mark Complete", "Unarchive" → "Reopen"
-- Changed All Tickets tab from "Archived" → "Completed"
-- Status dropdown allows manual status changes at any time
+- Renamed `archiveTicket` to `completeTicket` in the ticket context
+- `completeTicket` sets the status to "Completed" and `is_on_board` to `false`
+- Added a status dropdown selector on the ticket detail page (Open / In Progress / In Review / Completed)
+- Changed the detail page buttons: "Archive" → "Mark Complete", "Unarchive" → "Reopen"
+- Changed the All Tickets tab from "Archived" → "Completed"
+- The status dropdown allows manual status changes at any time
 
 ## Prompt 41 — Remove Completed Tickets from Sidebar
 
@@ -504,9 +504,9 @@ Instead of archive, let's make it complete/completed tickets, so it's more clear
 Make sure that when a ticket gets marked completed, it's moved to the archive, which means that it gets removed from the unassigned tickets, and vice versa.
 
 **Result:**
-- Updated sidebar filter to exclude completed tickets: `tickets.filter((t) => !t.isOnBoard && t.status !== "Completed")`
-- Completed tickets disappear from "Unassigned Tickets" sidebar
-- Reopened tickets reappear in sidebar since status is back to "Open"
+- Updated the sidebar filter to exclude completed tickets: `tickets.filter((t) => !t.isOnBoard && t.status !== "Completed")`
+- Completed tickets disappear from the "Unassigned Tickets" sidebar
+- Reopened tickets reappear in the sidebar since the status is back to "Open"
 
 ## Prompt 42 — Change Contact to Team Member & Add Filter
 
@@ -514,19 +514,19 @@ Make sure that when a ticket gets marked completed, it's moved to the archive, w
 In the all tickets page, where it says contact, make it say team member and let me filter by team member.
 
 **Result:**
-- Changed table column header from "Contact" to "Team Member"
-- Added `useTeamMembers()` import to load team members list
-- Added `filterMember` state with "All Members" dropdown populated from team context
-- Added member filter logic to useMemo to filter tickets by pointOfContact
+- Changed the table column header from "Contact" to "Team Member"
+- Added `useTeamMembers()` import to load the team members list
+- Added a `filterMember` state with an "All Members" dropdown populated from the team context
+- Added member filter logic to `useMemo` to filter tickets by `pointOfContact`
 
 ## Prompt 43 — Shareable Link with Login Redirect
 
 **User Request:**
-I want to be able to send https://widsmarketing.vercel.app/requests/new as a link, and when users login to be redirected to the same place they were earlier rather than the tickerboard.
+I want to be able to send https://widsmarketing.vercel.app/requests/new as a link, and when users log in to be redirected to the same place they were earlier rather than the tickerboard.
 
 **Result:**
-- Updated middleware to pass `redirect` query parameter to `/login` with the original URL path
-- Login page reads `redirect` param and uses it after successful authentication
+- Updated the middleware to pass a `redirect` query parameter to `/login` with the original URL path
+- The login page reads the `redirect` param and uses it after successful authentication
 - Visiting any protected URL redirects to login, then back to the original destination
 - Default fallback to `/` (board) if no redirect param is present
 
@@ -536,10 +536,10 @@ I want to be able to send https://widsmarketing.vercel.app/requests/new as a lin
 When a new ticket is made, it is not showing up on the sidebar.
 
 **Result:**
-- Identified root cause: `createTicket()` was setting `is_on_board: true` by default
-- Sidebar only displays tickets where `isOnBoard` is `false` and status is not "Completed"
-- Changed `is_on_board` default from `true` to `false` in ticket-context.tsx
-- New tickets now appear in "Unassigned Tickets" sidebar immediately after creation
+- Identified the root cause: `createTicket()` was setting `is_on_board: true` by default
+- The sidebar only displays tickets where `isOnBoard` is `false` and the status is not "Completed"
+- Changed `is_on_board` default from `true` to `false` in `ticket-context.tsx`
+- New tickets now appear in the "Unassigned Tickets" sidebar immediately after creation
 - Tickets can then be dragged to board columns and marked as on board
 
 ## Prompt 45 — Fix Edit Creating Duplicates
@@ -548,11 +548,11 @@ When a new ticket is made, it is not showing up on the sidebar.
 When I edit a ticket, a duplicate is made with the changes. I want this to be a true edit feature.
 
 **Result:**
-- Updated handleSubmit() in requests/new/page.tsx to detect edit mode via `isEditing && editId`
-- When editing, calls `updateTicket()` instead of `createTicket()` to update existing ticket
-- After successful edit, navigates to the ticket detail page instead of requests list
-- Form pre-populates with existing data when `?edit=${ticketId}` URL parameter is present
-- No more duplicate tickets created when editing
+- Updated `handleSubmit()` in `requests/new/page.tsx` to detect edit mode via `isEditing && editId`
+- When editing, calls `updateTicket()` instead of `createTicket()` to update the existing ticket
+- After a successful edit, navigates to the ticket detail page instead of the requests list
+- The form pre-populates with existing data when the `?edit=${ticketId}` URL parameter is present
+- No more duplicate tickets are created when editing
 
 ## Prompt 46 — Separate Point of Contact from Assignee
 
@@ -560,8 +560,8 @@ When I edit a ticket, a duplicate is made with the changes. I want this to be a 
 The point of contact field is changing when a ticket is assigned. I want there to be a difference between point of contact (person who created the ticket) and assignee.
 
 **Result:**
-- Added `assignedTo?: string` field to Ticket interface in types/index.ts
-- Added `assigned_to TEXT` column to tickets table in schema.sql
+- Added `assignedTo?: string` field to the Ticket interface in `types/index.ts`
+- Added `assigned_to TEXT` column to the tickets table in `schema.sql`
 - Updated `moveTicket()` to update `assigned_to` instead of `point_of_contact`
 - Updated `unassignFromBoard()` to clear `assigned_to` instead of `point_of_contact`
 - Board columns now filter by `assignedTo` (assignee) instead of `pointOfContact` (creator)
@@ -574,8 +574,34 @@ The point of contact field is changing when a ticket is assigned. I want there t
 I need all these tickets to now be marked as unassigned.
 
 **Result:**
-- Created scripts/unassign-all-tickets.sql with UPDATE query to set assigned_to to NULL
-- Updated seed script (scripts/seed-supabase.mjs) to include `assigned_to: null` for all new tickets
-- Provided SQL migration: `ALTER TABLE tickets ADD COLUMN IF NOT EXISTS assigned_to TEXT;`
-- After running migration, all existing tickets can be unassigned with UPDATE query
-- New tickets created without an assignee by default
+- Created `scripts/unassign-all-tickets.sql` with an UPDATE query to set `assigned_to` to `NULL`
+- Updated the seed script (`scripts/seed-supabase.mjs`) to include `assigned_to: null` for all new tickets
+- Provided the SQL migration: `ALTER TABLE tickets ADD COLUMN IF NOT EXISTS assigned_to TEXT;`
+- After running the migration, all existing tickets can be unassigned with an UPDATE query
+- New tickets are created without an assignee by default
+
+## Prompt 48 — Editable Content Link in Expanded Ticket View
+
+**User Request:**
+I want to be able to edit the link for where the project is stored without going through the whole workflow.
+
+**Result:**
+- Moved the "Content Link" card to the top of the expanded ticket view (`src/app/(protected)/requests/[id]/page.tsx`), directly below the "What Needs to Be Made" card, so it is the first thing you see
+- Kept the inline quick-edit: a pencil icon opens a text input prefilled with the current URL; Save writes straight to Supabase via `updateTicket()` → `content_link` (no 6-step Edit wizard involved)
+- Added `autoFocus` to the link input for a smoother edit flow
+- The saved link renders as a clickable external link that opens in a new tab, with helpful empty-state copy when no link is set
+- Verified the database plumbing end-to-end:
+  - `content_link TEXT` column present in `src/lib/supabase/schema.sql` (both in `CREATE TABLE` and an idempotent `ALTER TABLE … ADD COLUMN IF NOT EXISTS` migration)
+  - `ticket-context.tsx` `updateTicket()` already maps `contentLink` ↔ `content_link`
+  - `scripts/seed-supabase.mjs` includes `content_link` data for seeded tickets
+- `npm run build` passes successfully
+- SQL for existing/new tickets: `ALTER TABLE tickets ADD COLUMN IF NOT EXISTS content_link TEXT;` (run once in the Supabase SQL Editor if the column is missing)
+</arg_value>
+<task_progress>
+- [x] Re-read current prompts.md to get latest content
+- [x] Identify grammar/spelling/capitalization issues in existing prompts
+- [x] Add new entry for the latest work (Content Link edit in expanded ticket view)
+- [x] Rewrite prompts.md with corrected, capitalized prompts
+- [ ] Verify changes
+</task_progress>
+</write_to_file></tool_call>

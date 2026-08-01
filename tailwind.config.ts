@@ -27,18 +27,18 @@ const config: Config = {
           950: "#03070E",
         },
 
-        // Pale Yellow — page background
+        // Light Pink — page background (was Pale Yellow)
         gold: {
           50: "#FFFCF0",
-          100: "#FEFAE0",
-          200: "#FEF6B6", /* Pale Yellow */
-          300: "#FDEF89",
-          400: "#FCDE5A",
-          500: "#FBCC2B",
-          600: "#D3A31E",
-          700: "#9A7A15",
-          800: "#624E0C",
-          900: "#2F2403",
+          100: "#FFF0F6",
+          200: "#FFE0F0", /* Light Pink */
+          300: "#FFD1E8",
+          400: "#FFC0E0",
+          500: "#FF99CC",
+          600: "#FF66B3",
+          700: "#FF3399",
+          800: "#CC0066",
+          900: "#99004D",
         },
 
         // Purple — primary accent

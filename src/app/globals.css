@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    background-color: #FEF6B6;
+    background-color: #FFE0F0;
     @apply text-navy-800 font-sans antialiased font-bold;
     /* Subtle grid pattern background */
     background-image:
