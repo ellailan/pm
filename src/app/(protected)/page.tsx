@@ -43,7 +43,7 @@ export default function BoardPage() {
   const { members } = useTeamMembers();
   const columns = members.map((m) => [
     m.name,
-    tickets.filter((t) => t.assignedTo === m.name),
+    tickets.filter((t) => t.isOnBoard && t.assignedTo === m.name && t.status !== "Completed"),
   ]) as [string, Ticket[]][];
 
   return (

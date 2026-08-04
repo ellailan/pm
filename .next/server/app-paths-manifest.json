@@ -1,5 +1,4 @@
 {
-  "/(protected)/requests/[id]/page": "app/(protected)/requests/[id]/page.js",
   "/(protected)/page": "app/(protected)/page.js",
   "/(protected)/requests/page": "app/(protected)/requests/page.js"
 }
