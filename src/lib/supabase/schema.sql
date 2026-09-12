@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   other_graphic_type TEXT,
   event_name TEXT NOT NULL,
   event_date DATE,
+  event_time TEXT,
   event_location TEXT,
   deadline DATE NOT NULL,
   summary TEXT NOT NULL,
@@ -33,9 +34,9 @@ CREATE TABLE IF NOT EXISTS tickets (
 -- Add content_link column to existing tickets table (no-op if already present)
 ALTER TABLE tickets ADD COLUMN IF NOT EXISTS content_link TEXT;
 
--- Event date column replaces the old event_time column (no-ops if already applied)
+-- Event date and event time columns (no-ops if already applied)
 ALTER TABLE tickets ADD COLUMN IF NOT EXISTS event_date DATE;
-ALTER TABLE tickets DROP COLUMN IF EXISTS event_time;
+ALTER TABLE tickets ADD COLUMN IF NOT EXISTS event_time TEXT;
 
 -- Team members table
 CREATE TABLE IF NOT EXISTS team_members (

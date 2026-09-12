@@ -55,6 +55,7 @@ function NewRequestForm() {
     otherGraphicType: "",
     eventName: "",
     eventDate: "",
+    eventTime: "",
     eventLocation: "",
     summary: "",
     deadline: "",
@@ -84,6 +85,7 @@ function NewRequestForm() {
           otherGraphicType: "",
           eventName: ticket.eventName,
           eventDate: ticket.eventDate || "",
+          eventTime: ticket.eventTime || "",
           eventLocation: ticket.eventLocation,
           summary: ticket.summary,
           deadline: ticket.deadline,
@@ -146,6 +148,7 @@ function NewRequestForm() {
           otherGraphicType: form.otherGraphicType,
           eventName: form.eventName,
           eventDate: form.eventDate,
+          eventTime: form.eventTime,
           eventLocation: form.eventLocation,
           summary: form.summary,
           deadline: form.deadline,
@@ -171,6 +174,7 @@ function NewRequestForm() {
           otherGraphicType: form.otherGraphicType,
           eventName: form.eventName,
           eventDate: form.eventDate,
+          eventTime: form.eventTime,
           eventLocation: form.eventLocation,
           summary: form.summary,
           deadline: form.deadline,
@@ -347,6 +351,16 @@ function NewRequestForm() {
                   className="input-brutal"
                   value={form.eventDate}
                   onChange={(e) => setForm((prev) => ({ ...prev, eventDate: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="label-brutal">Time (Optional)</label>
+                <input
+                  type="text"
+                  className="input-brutal"
+                  placeholder="e.g. 10:00 AM"
+                  value={form.eventTime}
+                  onChange={(e) => setForm((prev) => ({ ...prev, eventTime: e.target.value }))}
                 />
               </div>
               <div className="space-y-1">

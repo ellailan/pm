@@ -172,8 +172,7 @@ export function CalendarView({ tickets }: { tickets: Ticket[] }) {
                         href={`/requests/${t.id}`}
                         title={`Event date: ${t.eventDate} — ${t.eventName || "event"}`}
                         className={cn(
-                          "flex items-center gap-1 px-1 py-0.5 text-[9px] font-medium rounded border-2 border-dashed border-gold-600 text-gold-700 bg-white/90",
-                          completed && "opacity-60 line-through"
+                          "flex items-center gap-1 px-1 py-0.5 text-[9px] font-medium rounded border-2 border-dashed border-gold-600 text-gold-700 bg-white/90"
                         )}
                       >
                         <CalendarDays className="w-3 h-3 shrink-0" />

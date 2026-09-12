@@ -261,6 +261,12 @@ export default function RequestDetailPage() {
                 <p className="text-sm text-navy-800">{formatDate(ticket.eventDate)}</p>
               </div>
             )}
+            {ticket.eventTime && (
+              <div>
+                <p className="text-xs text-navy-500 uppercase">Time</p>
+                <p className="text-sm text-navy-800">{ticket.eventTime}</p>
+              </div>
+            )}
             {ticket.eventLocation && (
               <div>
                 <p className="text-xs text-navy-500 uppercase">Location</p>
