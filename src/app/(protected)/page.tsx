@@ -3,19 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, hexToRgba } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 import { PortfolioDot } from "@/components/ui/portfolio-dot";
 import { SkeletonColumn } from "@/components/ui/skeleton";
 import { useTickets } from "@/lib/ticket-context";
 import { useTeamMembers } from "@/lib/team-context";
-import { Ticket, Portfolio } from "@/types";
+import { Ticket, Portfolio, memberColor } from "@/types";
 
 const priorityOrder: Record<string, number> = { Urgent: 4, High: 3, Medium: 2, Low: 1 };
 
 export default function BoardPage() {
   const { tickets, moveTicket, addToBoard, loading } = useTickets();
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const activeTickets = tickets.filter((t) => t.status !== "Completed");
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
     setDraggingId(id);
@@ -41,10 +42,11 @@ export default function BoardPage() {
   };
 
   const { members } = useTeamMembers();
-  const columns = members.map((m) => [
+  const columns = members.map((m, i) => [
     m.name,
     tickets.filter((t) => t.isOnBoard && t.assignedTo === m.name && t.status !== "Completed"),
-  ]) as [string, Ticket[]][];
+    memberColor(m, i),
+  ]) as [string, Ticket[], string][];
 
   return (
     <div className="h-full flex flex-col">
@@ -52,7 +54,7 @@ export default function BoardPage() {
       <div className="flex items-center justify-between px-5 py-3 border-b border-surface-200/50 bg-white/80">
         <div className="flex items-center gap-3">
           <h1 className="text-xl font-bold text-navy-800">Board</h1>
-          <span className="text-xs text-surface-500">{tickets.length} tickets</span>
+          <span className="text-xs text-surface-500">{activeTickets.length} tickets</span>
         </div>
         <Link href="/requests/new" className="btn-brutal-primary text-xs py-1.5 px-3">
           <PlusCircle className="w-3.5 h-3.5" />
@@ -60,8 +62,9 @@ export default function BoardPage() {
         </Link>
       </div>
 
-      {/* Kanban columns */}
-      <div className="flex-1 flex gap-3 p-4 overflow-x-auto bg-gold-50">
+      {/* Kanban grid — fills the whole viewport height (equal-height rows, no
+          page scroll on desktop); each user's cards scroll internally. */}
+      <div className="flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 auto-rows-fr gap-3 p-4 overflow-y-auto xl:overflow-hidden bg-gold-50">
         {loading ? (
           <>
             <SkeletonColumn />
@@ -71,19 +74,20 @@ export default function BoardPage() {
             <SkeletonColumn />
           </>
         ) : (
-          columns.map(([member, memberTickets]) => (
+          columns.map(([member, memberTickets, memberTint]) => (
             <div
               key={member}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, member)}
               className={cn(
-                "flex flex-col w-64 shrink-0 rounded-hand-xl bg-white/50 transition-colors duration-200",
+                "flex flex-col min-h-[14rem] xl:min-h-0 overflow-hidden rounded-hand-xl border transition-colors duration-200",
                 draggingId && "ring-2 ring-mint-300"
               )}
+              style={{ backgroundColor: hexToRgba(memberTint, 0.35), borderColor: hexToRgba(memberTint, 0.9) }}
             >
               {/* Column header */}
               <div className="flex items-center gap-2 px-3 py-2.5 border-b border-surface-200/30">
-                <Avatar name={member} size="sm" />
+                <Avatar name={member} size="sm" bgColor={memberTint} />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold text-navy-800 truncate">{member}</p>
                   <p className="text-[10px] text-surface-400">{memberTickets.length} ticket{memberTickets.length !== 1 ? "s" : ""}</p>
@@ -91,7 +95,7 @@ export default function BoardPage() {
               </div>
 
               {/* Cards */}
-              <div className="flex-1 space-y-1.5 p-2 overflow-y-auto">
+              <div className="flex-1 min-h-0 space-y-1.5 p-2 overflow-y-auto">
                 {(memberTickets as Ticket[])
                   .sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority])
                   .map((ticket) => (

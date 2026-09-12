@@ -6,9 +6,10 @@ import { supabase } from "@/lib/supabase/client";
 
 interface TeamContextType {
   members: TeamMember[];
-  addMember: (name: string) => Promise<void>;
+  addMember: (name: string, color?: string) => Promise<void>;
   removeMember: (id: string) => Promise<void>;
   renameMember: (id: string, name: string) => Promise<void>;
+  updateMemberColor: (id: string, color: string) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -36,7 +37,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       if (error) throw error;
 
       if (data) {
-        setMembers(data.map((m: any) => ({ id: m.id, name: m.name })));
+        setMembers(data.map((m: any) => ({ id: m.id, name: m.name, color: m.color ?? null })));
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch team members');
@@ -45,18 +46,18 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const addMember = async (name: string) => {
+  const addMember = async (name: string, color?: string) => {
     try {
       setError(null);
       const { data, error } = await supabase
         .from('team_members')
-        .insert([{ name: name.trim() }])
+        .insert([{ name: name.trim(), ...(color ? { color } : {}) }])
         .select()
         .single();
 
       if (error) throw error;
       if (data) {
-        setMembers((prev) => [...prev, { id: data.id, name: data.name }]);
+        setMembers((prev) => [...prev, { id: data.id, name: data.name, color: data.color ?? null }]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add team member');
@@ -93,7 +94,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       if (error) throw error;
       if (data) {
         setMembers((prev) =>
-          prev.map((m) => (m.id === id ? { id: data.id, name: data.name } : m))
+          prev.map((m) => (m.id === id ? { id: data.id, name: data.name, color: data.color ?? m.color ?? null } : m))
         );
       }
     } catch (err) {
@@ -102,8 +103,30 @@ export function TeamProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateMemberColor = async (id: string, color: string) => {
+    try {
+      setError(null);
+      const { data, error } = await supabase
+        .from('team_members')
+        .update({ color })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      if (data) {
+        setMembers((prev) =>
+          prev.map((m) => (m.id === id ? { ...m, color: data.color ?? color } : m))
+        );
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update team member color');
+      throw err;
+    }
+  };
+
   return (
-    <TeamContext.Provider value={{ members, addMember, removeMember, renameMember, loading, error }}>
+    <TeamContext.Provider value={{ members, addMember, removeMember, renameMember, updateMemberColor, loading, error }}>
       {children}
     </TeamContext.Provider>
   );

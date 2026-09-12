@@ -38,10 +38,14 @@ ALTER TABLE tickets ADD COLUMN IF NOT EXISTS content_link TEXT;
 ALTER TABLE tickets ADD COLUMN IF NOT EXISTS event_date DATE;
 ALTER TABLE tickets ADD COLUMN IF NOT EXISTS event_time TEXT;
 
+-- Member pastel color column (no-op if already applied)
+ALTER TABLE team_members ADD COLUMN IF NOT EXISTS color TEXT;
+
 -- Team members table
 CREATE TABLE IF NOT EXISTS team_members (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
+  color TEXT,
   created_at TIMESTAMP DEFAULT NOW() NOT NULL
 );
 

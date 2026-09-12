@@ -94,3 +94,21 @@ export function toDateKey(date: Date | string): string {
   }
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
+
+/**
+ * Converts a hex color (e.g. "#F9C6D3" or "#F9C") to an rgba() string,
+ * used for tinting member boxes while keeping text readable.
+ */
+export function hexToRgba(hex: string, alpha = 1): string {
+  const clean = hex.replace("#", "").trim();
+  const full =
+    clean.length === 3
+      ? clean.split("").map((c) => c + c).join("")
+      : clean.slice(0, 6);
+  const num = parseInt(full, 16);
+  if (Number.isNaN(num)) return hex;
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}

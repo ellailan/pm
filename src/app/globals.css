@@ -14,6 +14,20 @@
   }
 }
 
+/* ─── Confetti celebration (completed tickets) ───
+   Pieces are anchored 10vh above the viewport in their base position,
+   so the animation moves them from above the top edge down through the screen. */
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift, 2vw), 120vh, 0) rotate(var(--rot, 720deg));
+    opacity: 0.9;
+  }
+}
+
 @layer components {
   /* ─── Glassmorphism ─── */
   .glass {

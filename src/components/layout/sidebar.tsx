@@ -1,9 +1,9 @@
 "use client";
 
-import { LayoutDashboard, ListTodo, CalendarDays, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, ListTodo, CalendarDays, Users, LogOut, ChevronsLeft, ChevronsRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { PortfolioDot } from "@/components/ui/portfolio-dot";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,6 +17,24 @@ export function Sidebar() {
   const sidebarTickets = tickets.filter((t) => !t.isOnBoard && t.status !== "Completed");
   const [manageOpen, setManageOpen] = useState(false);
   const [draggingOver, setDraggingOver] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  // Restore collapsed preference after hydration (avoids SSR hydration mismatch)
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("pm-sidebar-collapsed") === "1") setCollapsed(true);
+    } catch {}
+  }, []);
+
+  const toggleSidebar = () => {
+    setCollapsed((c) => {
+      const next = !c;
+      try {
+        localStorage.setItem("pm-sidebar-collapsed", next ? "1" : "0");
+      } catch {}
+      return next;
+    });
+  };
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
     e.dataTransfer.effectAllowed = "move";
@@ -44,13 +62,34 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="w-56 h-full flex flex-col bg-navy-900 border-r border-navy-800/30 shrink-0">
-        <nav className="px-2 pt-3 pb-2 space-y-1">
-          <NavItem href="/" icon={LayoutDashboard} label="Board" isActive={pathname === "/"} />
-          <NavItem href="/requests" icon={ListTodo} label="All Tickets" isActive={pathname === "/requests"} />
-          <NavItem href="/calendar" icon={CalendarDays} label="Calendar" isActive={pathname === "/calendar"} />
+      <aside className={cn(
+        "h-full flex flex-col bg-navy-900 border-r border-navy-800/30 shrink-0 transition-all duration-200",
+        collapsed ? "w-14" : "w-56"
+      )}>
+        {/* Collapse toggle */}
+        <div className={cn(
+          "flex items-center border-b border-navy-800/30",
+          collapsed ? "justify-center py-3" : "justify-between px-3 py-2"
+        )}>
+          {!collapsed && (
+            <span className="text-[10px] font-bold text-mint-300 uppercase tracking-wider">Menu</span>
+          )}
+          <button
+            onClick={toggleSidebar}
+            className="p-1 rounded text-surface-400 hover:text-white transition-colors"
+            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? <ChevronsRight className="w-4 h-4" /> : <ChevronsLeft className="w-4 h-4" />}
+          </button>
+        </div>
+
+        <nav className={cn("px-2 pt-2 pb-2 space-y-1", collapsed && "px-1.5")}>
+          <NavItem href="/" icon={LayoutDashboard} label="Board" isActive={pathname === "/"} collapsed={collapsed} />
+          <NavItem href="/requests" icon={ListTodo} label="All Tickets" isActive={pathname === "/requests"} collapsed={collapsed} />
+          <NavItem href="/calendar" icon={CalendarDays} label="Calendar" isActive={pathname === "/calendar"} collapsed={collapsed} />
         </nav>
 
+        {!collapsed ? (
         <div className="flex-1 flex flex-col min-h-0">
           <div className="px-4 py-2 text-[10px] font-bold text-mint-300 uppercase tracking-wider">
             Unassigned Tickets
@@ -94,24 +133,35 @@ export function Sidebar() {
             )}
           </div>
         </div>
+        ) : (
+          <div className="flex-1" />
+        )}
 
-        <div className="px-3 py-3 border-t border-navy-800/30 space-y-2">
+        <div className={cn("px-3 py-3 border-t border-navy-800/30 space-y-2", collapsed && "px-1.5 space-y-1")}>
           <button
             onClick={() => setManageOpen(true)}
-            className="flex items-center gap-2 w-full px-2 py-1.5 rounded text-xs text-surface-400 hover:text-mint-400 hover:bg-navy-800 transition-colors"
+            title={collapsed ? "Manage Team" : undefined}
+            className={cn(
+              "flex items-center gap-2 w-full px-2 py-1.5 rounded text-xs text-surface-400 hover:text-mint-400 hover:bg-navy-800 transition-colors",
+              collapsed && "justify-center px-0"
+            )}
           >
             <Users className="w-3.5 h-3.5" />
-            Manage Team
+            {!collapsed && "Manage Team"}
           </button>
           <button
             onClick={async () => {
               await fetch("/api/auth/logout", { method: "POST" });
               window.location.href = "/login";
             }}
-            className="flex items-center gap-2 w-full px-2 py-1.5 rounded text-xs text-surface-400 hover:text-red-400 hover:bg-navy-800 transition-colors"
+            title={collapsed ? "Sign Out" : undefined}
+            className={cn(
+              "flex items-center gap-2 w-full px-2 py-1.5 rounded text-xs text-surface-400 hover:text-red-400 hover:bg-navy-800 transition-colors",
+              collapsed && "justify-center px-0"
+            )}
           >
             <LogOut className="w-3.5 h-3.5" />
-            Sign Out
+            {!collapsed && "Sign Out"}
           </button>
         </div>
       </aside>
@@ -120,19 +170,21 @@ export function Sidebar() {
   );
 }
 
-function NavItem({ href, icon: Icon, label, isActive }: { href: string; icon: any; label: string; isActive: boolean }) {
+function NavItem({ href, icon: Icon, label, isActive, collapsed }: { href: string; icon: any; label: string; isActive: boolean; collapsed?: boolean }) {
   return (
     <Link
       href={href}
+      title={collapsed ? label : undefined}
       className={cn(
         "flex items-center gap-2 px-2.5 py-1.5 rounded text-sm font-bold transition-all duration-200",
+        collapsed && "justify-center px-0",
         isActive
           ? "bg-mint-200/20 text-mint-300"
           : "text-surface-400 hover:bg-navy-800 hover:text-white"
       )}
     >
-      <Icon className="w-4 h-4" />
-      {label}
+      <Icon className="w-4 h-4 shrink-0" />
+      {!collapsed && label}
     </Link>
   );
 }

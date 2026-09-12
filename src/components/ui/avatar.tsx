@@ -1,10 +1,11 @@
-import { cn, getInitials } from "@/lib/utils";
+import { cn, getInitials, hexToRgba } from "@/lib/utils";
 
 interface AvatarProps {
   name: string;
   src?: string | null;
   className?: string;
   size?: "sm" | "md" | "lg";
+  bgColor?: string | null;
 }
 
 const sizeClasses = {
@@ -13,7 +14,7 @@ const sizeClasses = {
   lg: "w-10 h-10 text-sm",
 };
 
-export function Avatar({ name, src, className, size = "md" }: AvatarProps) {
+export function Avatar({ name, src, className, size = "md", bgColor }: AvatarProps) {
   if (src) {
     return (
       <img
@@ -27,10 +28,12 @@ export function Avatar({ name, src, className, size = "md" }: AvatarProps) {
   return (
     <div
       className={cn(
-        "rounded-full bg-mint-100 text-navy-700 font-semibold flex items-center justify-center",
+        "rounded-full text-navy-700 font-semibold flex items-center justify-center",
+        !bgColor && "bg-mint-100",
         sizeClasses[size],
         className
       )}
+      style={bgColor ? { backgroundColor: hexToRgba(bgColor, 0.55) } : undefined}
       title={name}
     >
       {getInitials(name)}

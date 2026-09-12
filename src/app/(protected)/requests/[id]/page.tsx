@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
 import { useTickets } from "@/lib/ticket-context";
 import { formatDate, formatDateTime, timeAgo, normalizeUrl } from "@/lib/utils";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Confetti } from "@/components/ui/confetti";
 import { cn } from "@/lib/utils";
 import { RequestStatus, REQUEST_STATUSES, Priority, PRIORITIES } from "@/types";
 
@@ -21,6 +22,26 @@ export default function RequestDetailPage() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [editingContentLink, setEditingContentLink] = useState(false);
   const [contentLinkInput, setContentLinkInput] = useState<string>("");
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  // Auto-hide confetti a few seconds after it appears
+  useEffect(() => {
+    if (!showConfetti) return;
+    const t = setTimeout(() => setShowConfetti(false), 5000);
+    return () => clearTimeout(t);
+  }, [showConfetti]);
+
+  const handleComplete = async () => {
+    if (!ticket) return;
+    await completeTicket(ticket.id);
+    setShowConfetti(true);
+  };
+
+  const handleStatusChange = async (status: RequestStatus) => {
+    if (!ticket) return;
+    await updateTicket(ticket.id, { status });
+    if (status === "Completed") setShowConfetti(true);
+  };
 
   const saveContentLink = async () => {
     if (!ticket) return;
@@ -113,7 +134,7 @@ export default function RequestDetailPage() {
               </button>
             ) : (
               <button
-                onClick={() => completeTicket(ticket.id)}
+                onClick={handleComplete}
                 className="text-sm font-bold text-navy-600 hover:text-mint-600 rounded-hand px-3 py-1.5 hover:bg-mint-50 transition-colors"
                 title="Mark ticket as complete"
               >
@@ -143,7 +164,7 @@ export default function RequestDetailPage() {
           <div className="flex items-center gap-1.5">
             <select
               value={ticket.status}
-              onChange={(e) => updateTicket(ticket.id, { status: e.target.value as RequestStatus })}
+              onChange={(e) => handleStatusChange(e.target.value as RequestStatus)}
               className={cn(
                 "text-sm font-bold px-2 py-1 rounded-hand border border-surface-300 bg-white",
                 ticket.status === "Open" && "text-navy-700",
@@ -416,6 +437,8 @@ export default function RequestDetailPage() {
           cancelText="Cancel"
           variant="danger"
         />
+
+        <Confetti active={showConfetti} />
       </div>
     </div>
   );
