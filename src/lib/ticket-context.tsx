@@ -57,7 +57,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
           graphicTypes: t.graphic_types,
           otherGraphicType: t.other_graphic_type || "",
           eventName: t.event_name,
-          eventTime: t.event_time || "",
+          eventDate: t.event_date || "",
           eventLocation: t.event_location || "",
           summary: t.summary,
           deadline: t.deadline,
@@ -94,7 +94,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
           graphic_types: ticket.graphicTypes,
           other_graphic_type: ticket.otherGraphicType || null,
           event_name: ticket.eventName,
-          event_time: ticket.eventTime || null,
+          event_date: ticket.eventDate || null,
           event_location: ticket.eventLocation || null,
           deadline: ticket.deadline,
           summary: ticket.summary,
@@ -123,7 +123,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
           graphicTypes: data.graphic_types,
           otherGraphicType: data.other_graphic_type || "",
           eventName: data.event_name,
-          eventTime: data.event_time || "",
+          eventDate: data.event_date || "",
           eventLocation: data.event_location || "",
           summary: data.summary,
           deadline: data.deadline,
@@ -201,7 +201,7 @@ export function TicketProvider({ children }: { children: ReactNode }) {
       if (updates.graphicTypes !== undefined) dbUpdates.graphic_types = updates.graphicTypes;
       if (updates.otherGraphicType !== undefined) dbUpdates.other_graphic_type = updates.otherGraphicType;
       if (updates.eventName !== undefined) dbUpdates.event_name = updates.eventName;
-      if (updates.eventTime !== undefined) dbUpdates.event_time = updates.eventTime;
+      if (updates.eventDate !== undefined) dbUpdates.event_date = updates.eventDate;
       if (updates.eventLocation !== undefined) dbUpdates.event_location = updates.eventLocation;
       if (updates.deadline !== undefined) dbUpdates.deadline = updates.deadline;
       if (updates.summary !== undefined) dbUpdates.summary = updates.summary;

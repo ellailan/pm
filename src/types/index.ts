@@ -85,7 +85,7 @@ export interface Ticket {
   graphicTypes: GraphicType[];
   otherGraphicType: string;
   eventName: string;
-  eventTime: string;
+  eventDate: string;
   eventLocation: string;
   summary: string;
   deadline: string;
@@ -109,7 +109,7 @@ export interface NewTicketForm {
   graphicTypes: GraphicType[];
   otherGraphicType: string;
   eventName: string;
-  eventTime: string;
+  eventDate: string;
   eventLocation: string;
   summary: string;
   deadline: string;

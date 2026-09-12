@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   graphic_types TEXT[] NOT NULL,
   other_graphic_type TEXT,
   event_name TEXT NOT NULL,
-  event_time TEXT,
+  event_date DATE,
   event_location TEXT,
   deadline DATE NOT NULL,
   summary TEXT NOT NULL,
@@ -32,6 +32,10 @@ CREATE TABLE IF NOT EXISTS tickets (
 
 -- Add content_link column to existing tickets table (no-op if already present)
 ALTER TABLE tickets ADD COLUMN IF NOT EXISTS content_link TEXT;
+
+-- Event date column replaces the old event_time column (no-ops if already applied)
+ALTER TABLE tickets ADD COLUMN IF NOT EXISTS event_date DATE;
+ALTER TABLE tickets DROP COLUMN IF EXISTS event_time;
 
 -- Team members table
 CREATE TABLE IF NOT EXISTS team_members (
@@ -65,21 +69,3 @@ INSERT INTO team_members (name) VALUES
   ('Amber'),
   ('Rosie')
 ON CONFLICT (name) DO NOTHING;
-
--- Insert sample tickets (optional - remove if you don't want sample data)
-INSERT INTO tickets (
-  title, portfolio, point_of_contact, graphic_types, event_name, 
-  deadline, summary, creative_vision, status, priority, created_by
-) VALUES (
-  'Fall Recruitment Instagram Campaign',
-  'Marketing',
-  'Sarah Chen',
-  ARRAY['Instagram Post', 'Instagram Story'],
-  'Fall 2025 Recruitment',
-  '2025-08-31',
-  'Need a series of Instagram posts and stories to promote our fall recruitment event.',
-  'Warm, inviting colors with organization branding. Include event date, time, and QR code.',
-  'In Progress',
-  'High',
-  'Sarah Chen'
-) ON CONFLICT DO NOTHING;

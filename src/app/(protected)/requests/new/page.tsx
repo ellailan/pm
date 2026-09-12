@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   ChevronLeft, ChevronRight, Check, Upload,
-  X, ArrowLeft, Send, CheckCircle,
+  X, ArrowLeft, Send, CheckCircle, ExternalLink,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, normalizeUrl } from "@/lib/utils";
 import {
   Portfolio, PORTFOLIOS, PORTFOLIO_COLORS,
   GraphicType, GRAPHIC_TYPES,
@@ -54,7 +54,7 @@ function NewRequestForm() {
     graphicTypes: [],
     otherGraphicType: "",
     eventName: "",
-    eventTime: "",
+    eventDate: "",
     eventLocation: "",
     summary: "",
     deadline: "",
@@ -83,7 +83,7 @@ function NewRequestForm() {
           graphicTypes: ticket.graphicTypes,
           otherGraphicType: "",
           eventName: ticket.eventName,
-          eventTime: ticket.eventTime,
+          eventDate: ticket.eventDate || "",
           eventLocation: ticket.eventLocation,
           summary: ticket.summary,
           deadline: ticket.deadline,
@@ -145,7 +145,7 @@ function NewRequestForm() {
           graphicTypes: form.graphicTypes,
           otherGraphicType: form.otherGraphicType,
           eventName: form.eventName,
-          eventTime: form.eventTime,
+          eventDate: form.eventDate,
           eventLocation: form.eventLocation,
           summary: form.summary,
           deadline: form.deadline,
@@ -170,7 +170,7 @@ function NewRequestForm() {
           graphicTypes: form.graphicTypes,
           otherGraphicType: form.otherGraphicType,
           eventName: form.eventName,
-          eventTime: form.eventTime,
+          eventDate: form.eventDate,
           eventLocation: form.eventLocation,
           summary: form.summary,
           deadline: form.deadline,
@@ -340,14 +340,13 @@ function NewRequestForm() {
                   onChange={(e) => setForm((prev) => ({ ...prev, eventName: e.target.value }))}
                 />
               </div>
-              <div className="space-y-1">
-                <label className="label-brutal">Time (Optional)</label>
+              <div className="col-span-2 space-y-1">
+                <label className="label-brutal">Event Date (Optional)</label>
                 <input
-                  type="text"
+                  type="date"
                   className="input-brutal"
-                  placeholder="e.g. 10:00 AM"
-                  value={form.eventTime}
-                  onChange={(e) => setForm((prev) => ({ ...prev, eventTime: e.target.value }))}
+                  value={form.eventDate}
+                  onChange={(e) => setForm((prev) => ({ ...prev, eventDate: e.target.value }))}
                 />
               </div>
               <div className="space-y-1">
@@ -425,15 +424,15 @@ function NewRequestForm() {
           <div className="space-y-4 animate-fade-in">
             <div>
               <h2 className="text-lg font-bold text-navy-800">References & Inspiration</h2>
-              <p className="text-sm text-surface-500">Share URLs that inspire the design</p>
+              <p className="text-sm text-surface-500">Add one or many links — RSVP links, inspo pics, or any other related content</p>
             </div>
             <div className="space-y-2">
-              <label className="label-brutal">Add Reference URL</label>
+              <label className="label-brutal">Add Reference Link</label>
               <div className="flex gap-2">
                 <input
                   type="text"
                   className="input-brutal flex-1 text-sm py-1.5"
-                  placeholder="https://..."
+                  placeholder="https://... (RSVP, inspo, or related)"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
@@ -457,10 +456,19 @@ function NewRequestForm() {
             </div>
             {form.references.length > 0 && (
               <div className="space-y-1">
-                <label className="label-brutal">Added References ({form.references.length})</label>
+                <label className="label-brutal">Added Links ({form.references.length})</label>
                 {form.references.map((ref, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 rounded border border-surface-200/50 bg-mint-50/20">
-                    <span className="text-xs text-navy-700 truncate flex-1">{ref}</span>
+                  <div key={i} className="flex items-center justify-between gap-2 p-2 rounded border border-surface-200/50 bg-mint-50/20">
+                    <a
+                      href={normalizeUrl(ref)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={ref}
+                      className="flex items-center gap-1.5 text-xs text-navy-700 hover:text-mint-600 flex-1"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span className="truncate">{ref}</span>
+                    </a>
                     <button
                       onClick={() => removeReference(i)}
                       className="text-surface-500 hover:text-pink-600"

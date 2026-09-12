@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, ListTodo, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, ListTodo, CalendarDays, Users, LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -48,6 +48,7 @@ export function Sidebar() {
         <nav className="px-2 pt-3 pb-2 space-y-1">
           <NavItem href="/" icon={LayoutDashboard} label="Board" isActive={pathname === "/"} />
           <NavItem href="/requests" icon={ListTodo} label="All Tickets" isActive={pathname === "/requests"} />
+          <NavItem href="/calendar" icon={CalendarDays} label="Calendar" isActive={pathname === "/calendar"} />
         </nav>
 
         <div className="flex-1 flex flex-col min-h-0">

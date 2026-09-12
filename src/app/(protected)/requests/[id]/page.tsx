@@ -6,10 +6,10 @@ import { useParams } from "next/navigation";
 import {
   ArrowLeft, Clock, Calendar, MapPin, User,
   Paperclip, Edit3, CheckCircle, RotateCcw, Trash2,
-  ExternalLink, Save, X,
+  ExternalLink, Save, X, Plus,
 } from "lucide-react";
 import { useTickets } from "@/lib/ticket-context";
-import { formatDate, formatDateTime, timeAgo } from "@/lib/utils";
+import { formatDate, formatDateTime, timeAgo, normalizeUrl } from "@/lib/utils";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { cn } from "@/lib/utils";
 import { RequestStatus, REQUEST_STATUSES, Priority, PRIORITIES } from "@/types";
@@ -27,6 +27,47 @@ export default function RequestDetailPage() {
     try {
       await updateTicket(ticket.id, { contentLink: contentLinkInput.trim() });
       setEditingContentLink(false);
+    } catch {
+      // error handled by context
+    }
+  };
+
+  // Reference links editing (inline on the ticket page, like content link)
+  const [editingReferences, setEditingReferences] = useState(false);
+  const [referencesInputs, setReferencesInputs] = useState<string[]>([]);
+  const [newReferenceInput, setNewReferenceInput] = useState<string>("");
+
+  const startEditReferences = () => {
+    if (!ticket) return;
+    setReferencesInputs([...ticket.references]);
+    setNewReferenceInput("");
+    setEditingReferences(true);
+  };
+
+  const cancelEditReferences = () => {
+    if (!ticket) return;
+    setReferencesInputs([...ticket.references]);
+    setNewReferenceInput("");
+    setEditingReferences(false);
+  };
+
+  const addReferenceInput = () => {
+    const url = newReferenceInput.trim();
+    if (!url) return;
+    setReferencesInputs((prev) => [...prev, url]);
+    setNewReferenceInput("");
+  };
+
+  const removeReferenceInput = (idx: number) => {
+    setReferencesInputs((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const saveReferences = async () => {
+    if (!ticket) return;
+    const cleaned = referencesInputs.map((r) => r.trim()).filter((r) => r.length > 0);
+    try {
+      await updateTicket(ticket.id, { references: cleaned });
+      setEditingReferences(false);
     } catch {
       // error handled by context
     }
@@ -214,10 +255,10 @@ export default function RequestDetailPage() {
               <p className="text-xs text-navy-500 uppercase">Name</p>
               <p className="text-sm text-navy-800">{ticket.eventName}</p>
             </div>
-            {ticket.eventTime && (
+            {ticket.eventDate && (
               <div>
-                <p className="text-xs text-navy-500 uppercase">Time</p>
-                <p className="text-sm text-navy-800">{ticket.eventTime}</p>
+                <p className="text-xs text-navy-500 uppercase">Event Date</p>
+                <p className="text-sm text-navy-800">{formatDate(ticket.eventDate)}</p>
               </div>
             )}
             {ticket.eventLocation && (
@@ -248,19 +289,107 @@ export default function RequestDetailPage() {
           <p className="text-sm text-navy-800 leading-relaxed whitespace-pre-wrap">{ticket.creativeVision}</p>
         </div>
 
-        {/* References */}
-        {ticket.references.length > 0 && (
-          <div className="rounded-hand-xl bg-white/80 p-5 shadow-sm border border-surface-200/50">
-            <h2 className="text-sm font-bold text-navy-700 mb-2 uppercase">References</h2>
+        {/* Reference Links */}
+        <div className="rounded-hand-xl bg-white/80 p-5 shadow-sm border border-surface-200/50">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-sm font-bold text-navy-700 uppercase">Reference Links</h2>
+            {!editingReferences && (
+              <button
+                onClick={startEditReferences}
+                className="text-navy-500 hover:text-navy-700"
+                title="Edit reference links"
+              >
+                <Edit3 className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+          {editingReferences ? (
+            <div className="space-y-3">
+              {referencesInputs.length > 0 && (
+                <div className="space-y-1.5">
+                  {referencesInputs.map((ref, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        className="input-brutal text-sm py-1.5 flex-1"
+                        value={ref}
+                        onChange={(e) =>
+                          setReferencesInputs((prev) =>
+                            prev.map((r, j) => (j === i ? e.target.value : r))
+                          )
+                        }
+                      />
+                      <button
+                        onClick={() => removeReferenceInput(i)}
+                        className="text-surface-500 hover:text-pink-600"
+                        title="Remove link"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  className="input-brutal text-sm py-1.5 flex-1"
+                  placeholder="https://... (RSVP, inspo, or related)"
+                  value={newReferenceInput}
+                  onChange={(e) => setNewReferenceInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addReferenceInput();
+                    }
+                  }}
+                />
+                <button
+                  onClick={addReferenceInput}
+                  className="btn-brutal-secondary text-sm py-1.5"
+                >
+                  <Plus className="w-4 h-4 inline" />
+                  Add
+                </button>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={saveReferences}
+                  className="btn-brutal-primary text-sm py-1.5"
+                >
+                  <Save className="w-4 h-4 inline" />
+                  Save
+                </button>
+                <button
+                  onClick={cancelEditReferences}
+                  className="btn-brutal-secondary text-sm py-1.5"
+                >
+                  <X className="w-4 h-4 inline" />
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : ticket.references.length > 0 ? (
             <div className="space-y-1.5">
               {ticket.references.map((ref, i) => (
                 <div key={i} className="flex items-center gap-2 p-2 rounded border border-surface-200/50 bg-mint-50/30">
-                  <span className="text-sm text-navy-700 truncate flex-1">{ref}</span>
+                  <ExternalLink className="w-4 h-4 flex-shrink-0" />
+                  <a
+                    href={normalizeUrl(ref)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={ref}
+                    className="text-sm text-navy-700 hover:text-mint-600 truncate flex-1"
+                  >
+                    {ref}
+                  </a>
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <p className="text-sm text-surface-500">No reference links added yet. Click the pencil to add RSVP links, inspo pics, or other related content.</p>
+          )}
+        </div>
 
         {/* Additional Requests */}
         {ticket.additionalRequests && (

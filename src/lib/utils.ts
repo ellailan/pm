@@ -9,6 +9,20 @@ export function generateId(): string {
   return `REQ-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 }
 
+/**
+ * Prepends https:// to URLs that don't already include a protocol
+ * so pasted links (e.g. "pinterest.com/..." or "example.org/invite") open correctly
+ * instead of being treated as relative internal links.
+ */
+export function normalizeUrl(url: string): string {
+  const trimmed = url.trim();
+  if (!trimmed) return trimmed;
+  if (!/^https?:\/\//i.test(trimmed) && !/^mailto:/i.test(trimmed)) {
+    return `https://${trimmed}`;
+  }
+  return trimmed;
+}
+
 export function formatDate(date: string): string {
   return new Date(date).toLocaleDateString("en-US", {
     month: "short",
@@ -65,4 +79,18 @@ export function getDeadlineColor(deadline: string): string {
 
 export function isOverdue(deadline: string): boolean {
   return new Date(deadline) < new Date();
+}
+
+/**
+ * Returns a timezone-safe `YYYY-MM-DD` key for a date or date string.
+ * When given an ISO date string like "2026-09-12", the value is used as-is
+ * (avoids the UTC-vs-local shift that `new Date("2026-09-12")` can cause).
+ */
+export function toDateKey(date: Date | string): string {
+  if (typeof date === "string") {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(date);
+    if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+    date = new Date(date);
+  }
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
